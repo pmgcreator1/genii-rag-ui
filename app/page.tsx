@@ -16,7 +16,7 @@ type Message = {
 }
 
 export default function Home() {
-  const [password, setPassword] = useState(() => 
+  const [password, setPassword] = useState(() =>
     typeof window !== 'undefined' ? sessionStorage.getItem('genii_pw') || '' : ''
   )
   const [isLoggedIn, setIsLoggedIn] = useState(() =>
@@ -74,24 +74,23 @@ export default function Home() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="bg-gray-900 p-8 rounded-2xl shadow-xl w-96 border border-gray-800">
+      <div className="min-h-screen bg-[#0A1628] flex items-center justify-center">
+        <div className="bg-[#0F1F3D] p-8 rounded-2xl shadow-xl w-96 border border-[#1e3a6e]">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">G</div>
-            <h1 className="text-2xl font-bold text-white">GENII RAG</h1>
+            <span className="text-white font-extrabold text-xl tracking-tight">GSG GENII</span>
           </div>
-          <p className="text-gray-400 mb-6 text-sm">M&A Knowledge Assistant · Intern</p>
+          <p className="text-[#5B9BD5] mb-6 text-sm">M&A Knowledge Assistant · Intern</p>
           <input
             type="password"
             placeholder="Passwort eingeben..."
             value={password}
             onChange={e => setPassword(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleLogin()}
-            className="w-full bg-gray-800 text-white rounded-lg px-4 py-3 mb-4 outline-none border border-gray-700 focus:border-blue-500 transition"
+            className="w-full bg-[#0A1628] text-white rounded-lg px-4 py-3 mb-4 outline-none border border-[#1e3a6e] focus:border-[#5B9BD5] transition placeholder:text-[#4a6080]"
           />
           <button
             onClick={handleLogin}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition"
+            className="w-full bg-[#1B4FD8] hover:bg-[#5B9BD5] text-white font-semibold py-3 rounded-lg transition"
           >
             Einloggen
           </button>
@@ -101,25 +100,24 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex flex-col">
-      <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center gap-3">
-        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">G</div>
+    <div className="min-h-screen bg-[#0A1628] flex flex-col">
+      <div className="bg-[#0F1F3D] border-b border-[#1e3a6e] px-6 py-4 flex items-center gap-3">
         <div>
-          <h1 className="text-white font-bold text-lg leading-tight">GENII M&A Assistant</h1>
-          <p className="text-gray-500 text-xs">Powered by Claude · Internes Wissenssystem</p>
+          <h1 className="text-white font-extrabold text-lg leading-tight tracking-tight">GSG GENII M&A Assistant</h1>
+          <p className="text-[#5B9BD5] text-xs">Powered by Claude · Internes Wissenssystem</p>
         </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 max-w-4xl mx-auto w-full">
         {messages.length === 0 && (
           <div className="text-center mt-16">
-            <p className="text-gray-400 text-lg mb-6">Stelle eine Frage zum GENII Framework</p>
+            <p className="text-[#5B9BD5] text-lg mb-6">Stelle eine Frage zum GENII Framework</p>
             <div className="grid grid-cols-2 gap-3">
               {EXAMPLE_QUESTIONS.map((q, i) => (
                 <button
                   key={i}
                   onClick={() => handleAsk(q)}
-                  className="bg-gray-900 hover:bg-gray-800 border border-gray-700 hover:border-blue-500 text-gray-300 text-sm px-4 py-3 rounded-xl text-left transition"
+                  className="bg-[#0F1F3D] hover:bg-[#1e3a6e] border border-[#1e3a6e] hover:border-[#5B9BD5] text-gray-300 text-sm px-4 py-3 rounded-xl text-left transition"
                 >
                   {q}
                 </button>
@@ -132,8 +130,8 @@ export default function Home() {
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-2xl px-4 py-3 rounded-2xl text-sm ${
               msg.role === 'user'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-900 text-gray-100 border border-gray-800'
+                ? 'bg-[#1B4FD8] text-white'
+                : 'bg-[#0F1F3D] text-gray-100 border border-[#1e3a6e]'
             }`}>
               {msg.role === 'assistant' ? (
                 <>
@@ -141,10 +139,10 @@ export default function Home() {
                     <ReactMarkdown>{msg.text}</ReactMarkdown>
                   </div>
                   {msg.sources && msg.sources.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-gray-700">
-                      <p className="text-gray-500 text-xs mb-1">Quellen:</p>
+                    <div className="mt-3 pt-3 border-t border-[#1e3a6e]">
+                      <p className="text-[#4a6080] text-xs mb-1">Quellen:</p>
                       {msg.sources.map((s, j) => (
-                        <span key={j} className="inline-block bg-gray-800 text-gray-400 text-xs px-2 py-1 rounded mr-1">
+                        <span key={j} className="inline-block bg-[#0A1628] border border-[#1e3a6e] text-[#5B9BD5] text-xs px-2 py-1 rounded mr-1">
                           📄 {s}
                         </span>
                       ))}
@@ -160,7 +158,7 @@ export default function Home() {
 
         {loading && (
           <div className="flex justify-start">
-            <div className="bg-gray-900 border border-gray-800 text-gray-400 px-4 py-3 rounded-2xl text-sm">
+            <div className="bg-[#0F1F3D] border border-[#1e3a6e] text-[#5B9BD5] px-4 py-3 rounded-2xl text-sm">
               Analysiere Framework...
             </div>
           </div>
@@ -168,7 +166,7 @@ export default function Home() {
         {error && <p className="text-red-400 text-center text-sm">{error}</p>}
       </div>
 
-      <div className="bg-gray-900 border-t border-gray-800 px-6 py-4">
+      <div className="bg-[#0F1F3D] border-t border-[#1e3a6e] px-6 py-4">
         <div className="flex gap-3 max-w-4xl mx-auto">
           <input
             type="text"
@@ -176,12 +174,12 @@ export default function Home() {
             value={question}
             onChange={e => setQuestion(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleAsk()}
-            className="flex-1 bg-gray-800 text-white rounded-xl px-4 py-3 outline-none border border-gray-700 focus:border-blue-500 transition"
+            className="flex-1 bg-[#0A1628] text-white rounded-xl px-4 py-3 outline-none border border-[#1e3a6e] focus:border-[#5B9BD5] transition placeholder:text-[#4a6080]"
           />
           <button
             onClick={() => handleAsk()}
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-6 py-3 rounded-xl transition"
+            className="bg-[#1B4FD8] hover:bg-[#5B9BD5] disabled:opacity-50 text-white font-semibold px-6 py-3 rounded-xl transition"
           >
             Senden
           </button>
