@@ -35,13 +35,31 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [loginError, setLoginError] = useState('')
+  const [loginLoading, setLoginLoading] = useState(false)
 
-  const handleLogin = () => {
-    if (password.trim()) {
+  const handleLogin = async () => {
+    if (!password.trim()) return
+    setLoginLoading(true)
+    setLoginError('')
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      })
+      if (res.status === 401) {
+        setLoginError('Falsches Passwort')
+        return
+      }
       _password = password
       passwordRef.current = password
       sessionStorage.setItem('genii_pw', password)
       setIsLoggedIn(true)
+    } catch {
+      setLoginError('Verbindungsfehler – bitte erneut versuchen')
+    } finally {
+      setLoginLoading(false)
     }
   }
 
@@ -122,11 +140,15 @@ export default function Home() {
             onKeyDown={e => e.key === 'Enter' && handleLogin()}
             className="w-full bg-[#0A1628] text-white rounded-lg px-4 py-3 mb-4 outline-none border border-[#1e3a6e] focus:border-[#5B9BD5] transition placeholder:text-[#4a6080]"
           />
+          {loginError && (
+            <p className="text-red-400 text-sm mb-3">{loginError}</p>
+          )}
           <button
             onClick={handleLogin}
-            className="w-full bg-[#1B4FD8] hover:bg-[#5B9BD5] text-white font-semibold py-3 rounded-lg transition"
+            disabled={loginLoading}
+            className="w-full bg-[#1B4FD8] hover:bg-[#5B9BD5] disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition"
           >
-            Einloggen
+            {loginLoading ? 'Prüfe...' : 'Einloggen'}
           </button>
         </div>
       </div>
