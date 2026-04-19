@@ -173,8 +173,15 @@ export default function Home() {
 
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 max-w-4xl mx-auto w-full">
         {messages.length === 0 && (
-          <div className="text-center mt-16">
-            <p className="text-[#5B9BD5] text-lg mb-6">Stelle eine Frage zum GENII Framework</p>
+          <div className="text-center mt-12">
+            <div className="bg-[#0F1F3D] border border-[#1e3a6e] rounded-2xl px-8 py-6 mb-8 text-left max-w-2xl mx-auto">
+              <p className="text-[#5B9BD5] text-xs font-semibold uppercase tracking-widest mb-2">GENII Knowledge Base</p>
+              <p className="text-white text-base font-semibold mb-2">Willkommen beim GENII M&A Assistenten</p>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Dieses System gibt dir direkten Zugriff auf das interne GENII M&A-Framework. Du kannst Fragen zu relevanten Software-Verticals, Akquisitionskriterien, EBITDA-Anforderungen und der Frage stellen, ob ein Unternehmen zum GENII-Portfolio passt – beantwortet direkt aus unserer Wissensdatenbank.
+              </p>
+            </div>
+            <p className="text-[#5B9BD5] text-sm mb-4">Beispielfragen:</p>
             <div className="grid grid-cols-2 gap-3">
               {EXAMPLE_QUESTIONS.map((q, i) => (
                 <button
