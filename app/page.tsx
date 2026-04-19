@@ -16,15 +16,22 @@ type Message = {
 }
 
 export default function Home() {
-  const [password, setPassword] = useState('')
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [password, setPassword] = useState(() => 
+    typeof window !== 'undefined' ? sessionStorage.getItem('genii_pw') || '' : ''
+  )
+  const [isLoggedIn, setIsLoggedIn] = useState(() =>
+    typeof window !== 'undefined' ? !!sessionStorage.getItem('genii_pw') : false
+  )
   const [question, setQuestion] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   const handleLogin = () => {
-    if (password.trim()) setIsLoggedIn(true)
+    if (password.trim()) {
+      sessionStorage.setItem('genii_pw', password)
+      setIsLoggedIn(true)
+    }
   }
 
   const handleAsk = async (q?: string) => {
@@ -37,16 +44,18 @@ export default function Home() {
     setError('')
 
     try {
+      const storedPassword = sessionStorage.getItem('genii_pw') || password
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: finalQuestion, password })
+        body: JSON.stringify({ question: finalQuestion, password: storedPassword })
       })
 
       const data = await res.json()
 
       if (res.status === 401) {
         setError('Falsches Passwort')
+        sessionStorage.removeItem('genii_pw')
         setIsLoggedIn(false)
         return
       }
@@ -93,7 +102,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col">
-      {/* Header */}
       <div className="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center gap-3">
         <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">G</div>
         <div>
@@ -102,7 +110,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto px-6 py-6 space-y-4 max-w-4xl mx-auto w-full">
         {messages.length === 0 && (
           <div className="text-center mt-16">
@@ -161,7 +168,6 @@ export default function Home() {
         {error && <p className="text-red-400 text-center text-sm">{error}</p>}
       </div>
 
-      {/* Input */}
       <div className="bg-gray-900 border-t border-gray-800 px-6 py-4">
         <div className="flex gap-3 max-w-4xl mx-auto">
           <input
