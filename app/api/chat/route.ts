@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
   }
 
   const context = chunks.map((c: any) => c.content).join('\n\n')
+  const sources = [...new Set(chunks.map((c: any) => c.metadata?.source).filter(Boolean))]
 
   const response = await anthropic.messages.create({
     model: 'claude-sonnet-4-6',
@@ -42,5 +43,5 @@ export async function POST(req: NextRequest) {
   })
 
   const answer = response.content[0].type === 'text' ? response.content[0].text : ''
-  return NextResponse.json({ answer })
+  return NextResponse.json({ answer, sources })
 }
