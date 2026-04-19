@@ -137,9 +137,9 @@ export default function Home() {
             }`}>
               {msg.role === 'assistant' ? (
                 <>
-                  <ReactMarkdown className="prose prose-invert prose-sm max-w-none">
-                    {msg.text}
-                  </ReactMarkdown>
+                  <div className="prose prose-invert prose-sm max-w-none">
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </div>
                   {msg.sources && msg.sources.length > 0 && (
                     <div className="mt-3 pt-3 border-t border-gray-700">
                       <p className="text-gray-500 text-xs mb-1">Quellen:</p>
