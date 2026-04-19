@@ -178,7 +178,7 @@ export default function Home() {
               <p className="text-[#5B9BD5] text-xs font-semibold uppercase tracking-widest mb-2">GENII Knowledge Base</p>
               <p className="text-white text-base font-semibold mb-2">Willkommen beim GENII M&A Assistenten</p>
               <p className="text-gray-400 text-sm leading-relaxed">
-                Dieses System gibt dir direkten Zugriff auf das interne GENII M&A-Framework. Du kannst Fragen zu relevanten Software-Verticals, Akquisitionskriterien, EBITDA-Anforderungen und der Frage stellen, ob ein Unternehmen zum GENII-Portfolio passt – beantwortet direkt aus unserer Wissensdatenbank.
+                Dieses System gibt dir direkten Zugriff auf das GENII M&A-Framework. Du kannst Fragen zu relevanten Software-Verticals, Akquisitionskriterien, EBITDA-Anforderungen und der Frage stellen, ob ein Unternehmen zum GENII-Portfolio passt – beantwortet direkt aus unserer Wissensdatenbank.
               </p>
             </div>
             <p className="text-[#5B9BD5] text-sm mb-4">Beispielfragen:</p>
