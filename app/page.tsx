@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import ReactMarkdown from 'react-markdown'
 
@@ -23,6 +23,9 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(() =>
     typeof window !== 'undefined' ? !!sessionStorage.getItem('genii_pw') : false
   )
+  const passwordRef = useRef<string>(
+    typeof window !== 'undefined' ? sessionStorage.getItem('genii_pw') || '' : ''
+  )
   const [question, setQuestion] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [loading, setLoading] = useState(false)
@@ -30,6 +33,7 @@ export default function Home() {
 
   const handleLogin = () => {
     if (password.trim()) {
+      passwordRef.current = password
       sessionStorage.setItem('genii_pw', password)
       setIsLoggedIn(true)
     }
@@ -45,7 +49,7 @@ export default function Home() {
     setError('')
 
     try {
-      const storedPassword = sessionStorage.getItem('genii_pw') || password
+      const storedPassword = passwordRef.current || sessionStorage.getItem('genii_pw') || ''
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -57,6 +61,7 @@ export default function Home() {
       if (res.status === 401) {
         setError('Falsches Passwort')
         sessionStorage.removeItem('genii_pw')
+        passwordRef.current = ''
         setIsLoggedIn(false)
         return
       }
@@ -75,10 +80,31 @@ export default function Home() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-[#0A1628] flex items-center justify-center">
-        <div className="bg-[#0F1F3D] p-8 rounded-2xl shadow-xl w-96 border border-[#1e3a6e]">
+      <div className="min-h-screen bg-[#0A1628] flex items-center justify-center relative overflow-hidden">
+        <Image
+          src="/gsg-logo.png"
+          alt=""
+          aria-hidden
+          width={700}
+          height={210}
+          style={{
+            position: 'absolute',
+            filter: 'invert(1) blur(8px)',
+            mixBlendMode: 'screen',
+            opacity: 0.06,
+            pointerEvents: 'none',
+            userSelect: 'none',
+          }}
+        />
+        <div className="bg-[#0F1F3D] p-8 rounded-2xl shadow-xl w-96 border border-[#1e3a6e] relative z-10">
           <div className="flex items-center gap-3 mb-6">
-            <Image src="/gsg-logo.png" alt="GSG GENII" width={160} height={48} style={{ filter: 'brightness(0) invert(1)' }} />
+            <Image
+              src="/gsg-logo.png"
+              alt="GSG GENII"
+              width={160}
+              height={48}
+              style={{ filter: 'invert(1)', mixBlendMode: 'screen' }}
+            />
           </div>
           <p className="text-[#5B9BD5] mb-6 text-sm">M&A Knowledge Assistant · Intern</p>
           <input
@@ -103,7 +129,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#0A1628] flex flex-col">
       <div className="bg-[#0F1F3D] border-b border-[#1e3a6e] px-6 py-4 flex items-center gap-4">
-        <Image src="/gsg-logo.png" alt="GSG GENII" width={120} height={36} style={{ filter: 'brightness(0) invert(1)' }} />
+        <Image
+          src="/gsg-logo.png"
+          alt="GSG GENII"
+          width={120}
+          height={36}
+          style={{ filter: 'invert(1)', mixBlendMode: 'screen' }}
+        />
         <div className="border-l border-[#1e3a6e] pl-4">
           <p className="text-white font-semibold text-sm leading-tight">M&A Assistant</p>
           <p className="text-[#5B9BD5] text-xs">Powered by Claude · Internes Wissenssystem</p>
